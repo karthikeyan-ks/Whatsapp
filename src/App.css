@@ -1,0 +1,19 @@
+
+.App{
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  overflow: visible;
+  background-color:#ededed;
+}
+.App-header{
+  height: calc(100vh -20%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.green{
+  width: 100%;
+  height: 20%;
+  background-color: rgb(2, 48, 2);
+}
