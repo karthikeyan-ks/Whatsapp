@@ -4,21 +4,18 @@ import "./Demo.css";
 class Demo extends React.Component {
   constructor(props) {
     super(props);
+    this.inputvalue="";
     this.state = {
+      username: [],
+      lastmessage: [],
+      message: [],
+      list: [],
+      msgcontent: [],
       inputvalue: "",
+      messageUpate:0,
+      messageAppend:0
     };
-  }
-  sendMessage(message) {
-    message.push({ sender: false, message: this.state.inputvalue });
-    this.setState({
-      inputvalue: "",
-    });
-  }
-  setInputValue(e) {
-    this.state.inputvalue = e.target.value;
-  }
-  setUI(){
-    let username = [
+    this.state.username = [
       "karthikeyan",
       "alen",
       "jiboy",
@@ -29,7 +26,7 @@ class Demo extends React.Component {
       "john",
       "thomas",
     ];
-    let lastmessage = [
+    this.state.lastmessage = [
       "hai",
       "hello",
       "bye",
@@ -40,9 +37,9 @@ class Demo extends React.Component {
       "good night",
       "good evening",
     ];
-    let list = [];
-    let msgcontent = [];
-    let message = [
+    this.state.list = [];
+    this.state.msgcontent = [];
+    this.state.message = [
       { sender: true, message: "hai" },
       { sender: true, message: "hello" },
       { sender: false, message: "welcome" },
@@ -57,26 +54,31 @@ class Demo extends React.Component {
           "Webkit browsers, such as Chrome, Safari and Opera, supports the non-standard ::-webkit-scrollbar pseudo element, which allows us to modify the look of the browser's scrollbar. IE and Edge supports the -ms-overflow-style: property, and Firefox supports the scrollbar-width property, which allows us to hide the scrollbar, but keep functionality.",
       },
     ];
-    message.forEach((element) => {
-      console.log(element.message)
+    this.state.message.forEach((element) => {
       if (element.sender) {
-        msgcontent.push(
+        this.state.msgcontent.push(
           <div
             className="msgcontainer"
-            key={"msgcontainer" + msgcontent.length}
+            key={"msgcontainer" + this.state.msgcontent.length}
           >
-            <div className="sender sb1" key={"sender" + msgcontent.length}>
+            <div
+              className="sender sb1"
+              key={"sender" + this.state.msgcontent.length}
+            >
               {element.message}
             </div>
           </div>
         );
       } else {
-        msgcontent.push(
+        this.state.msgcontent.push(
           <div
             className="msgcontainer"
-            key={"msgcontainer" + msgcontent.length}
+            key={"msgcontainer" + this.state.msgcontent.length}
           >
-            <div className="receiver sb2" key={"sender" + msgcontent.length}>
+            <div
+              className="receiver sb2"
+              key={"sender" + this.state.msgcontent.length}
+            >
               {element.message}
             </div>
           </div>
@@ -84,7 +86,7 @@ class Demo extends React.Component {
       }
     });
     for (let i = 0; i < 9; i++) {
-      list.push(
+      this.state.list.push(
         <div className="item" key={"item" + i}>
           <div className="pic" key={"pic" + i}>
             <img
@@ -100,83 +102,54 @@ class Demo extends React.Component {
           </div>
           <div className="main-content">
             <div className="font" key={"font" + i}>
-              {username[i]}
+              {this.state.username[i]}
             </div>
             <div className="msg" key={"msg" + i}>
-              {lastmessage[i]}
+              {this.state.lastmessage[i]}
             </div>
           </div>
         </div>
       );
     }
-    return [list,message,msgcontent,lastmessage,username];
   }
-  getUI(list,message,msgcontent,lastmessage,username){
-    message.forEach((element) => {
-      console.log(element.message)
-      if (element.sender) {
-        msgcontent.push(
-          <div
-            className="msgcontainer"
-            key={"msgcontainer" + msgcontent.length}
-          >
-            <div className="sender sb1" key={"sender" + msgcontent.length}>
-              {element.message}
-            </div>
-          </div>
-        );
-      } else {
-        msgcontent.push(
-          <div
-            className="msgcontainer"
-            key={"msgcontainer" + msgcontent.length}
-          >
-            <div className="receiver sb2" key={"sender" + msgcontent.length}>
-              {element.message}
-            </div>
-          </div>
-        );
-      }
+
+  AppendMessage() {
+    let msgcontent = this.state.msgcontent;
+    this.setState({
+      msgcontent: [],
     });
-    for (let i = 0; i < 9; i++) {
-      list.push(
-        <div className="item" key={"item" + i}>
-          <div className="pic" key={"pic" + i}>
-            <img
-              src={
-                "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp"
-              }
-              alt={
-                "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp"
-              }
-              height={"40"}
-              width={"40"}
-            ></img>
+    if (this.state.message[this.state.message.length - 1].sender) {
+      msgcontent.push(
+        <div className="msgcontainer" key={"msgcontainer" + msgcontent.length}>
+          <div className="sender sb1" key={"sender" + msgcontent.length}>
+            {this.state.message[this.state.message.length - 1].message}
           </div>
-          <div className="main-content">
-            <div className="font" key={"font" + i}>
-              {username[i]}
-            </div>
-            <div className="msg" key={"msg" + i}>
-              {lastmessage[i]}
-            </div>
+        </div>
+      );
+    } else {
+      msgcontent.push(
+        <div className="msgcontainer" key={"msgcontainer" + msgcontent.length}>
+          <div className="receiver sb2" key={"sender" + msgcontent.length}>
+            {this.state.message[this.state.message.length - 1].message}
           </div>
         </div>
       );
     }
+    this.setState({
+      msgcontent: msgcontent,
+      messageAppend:this.state.messageAppend+1
+    });
   }
+  
+  componentDidUpdate(){
+    if(this.state.messageUpate!=this.state.messageAppend){
+      this.AppendMessage();
+    }
+  }
+
   render() {
-    let ui=this.setUI();
-    let list=ui[0]
-    let message=ui[1]
-    let msgcontent=ui[2]
-    let lastmessage=ui[3]
-    let username=ui[4]
     return (
       <div className="main">
-        {
-          console.log("rendering")
-        }
         <div className="status-bar">
           <div className="left">
             <div className="status-left">
@@ -197,30 +170,31 @@ class Demo extends React.Component {
             <div className="left-statusbar">
               <input type={"search"} placeholder={"search contacts"}></input>
             </div>
-            <div className="left-inner">{list}</div>
+            <div className="left-inner">{this.state.list}</div>
           </div>
           <div className="right">
             <div className="message-content">
-              <div className="message">{msgcontent}</div>
+              <div className="message">{this.state.msgcontent}</div>
               <div className="inputbox">
                 <input
                   type={"text"}
-                  onKeyDown={(eve) => {
-                    this.setState({
-                      inputvalue: eve.target.value,
-                    });
+                  onKeyUp={(eve) => {
+                    this.inputvalue=eve.target.value;
                   }}
                   placeholder={"Enter your message"}
                 ></input>
-                {}
+
                 <button
                   onClick={(event) => {
-                    message.push({
-                      sender: false,
-                      message: this.state.inputvalue,
+                    console.log(this.inputvalue);
+                    this.setState({
+                      message: this.state.message.concat({
+                        sender: false,
+                        message: this.inputvalue+" ",
+                      }),
+                      messageUpate:this.state.messageUpate+1
                     });
-                    this.getUI(list,message,msgcontent,lastmessage,username)
-                    this.setState({inputvalue:""})
+                    console.log("messages ", this.state.message.length);
                   }}
                 >
                   send
