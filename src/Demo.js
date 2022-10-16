@@ -4,7 +4,7 @@ import "./Demo.css";
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.inputvalue="";
+    this.inputvalue = "";
     this.state = {
       username: [],
       lastmessage: [],
@@ -12,9 +12,14 @@ class Demo extends React.Component {
       list: [],
       msgcontent: [],
       inputvalue: "",
-      messageUpate:0,
-      messageAppend:0
+      messageUpate: 0,
+      messageAppend: 0,
+      bool:true
     };
+
+    this.updateState = this.updateState.bind(this);
+    this.clearData = this.clearData.bind(this);
+
     this.state.username = [
       "karthikeyan",
       "alen",
@@ -113,6 +118,18 @@ class Demo extends React.Component {
     }
   }
 
+  updateState(e) {
+    this.setState({
+      inputvalue: e.target.value,
+    });
+  }
+
+  clearData() {
+    this.setState({
+      inputvalue: "",
+    });
+  }
+
   AppendMessage() {
     let msgcontent = this.state.msgcontent;
     this.setState({
@@ -137,17 +154,31 @@ class Demo extends React.Component {
     }
     this.setState({
       msgcontent: msgcontent,
-      messageAppend:this.state.messageAppend+1
+      messageAppend: this.state.messageAppend + 1,
     });
   }
+
   
-  componentDidUpdate(){
-    if(this.state.messageUpate!=this.state.messageAppend){
+  scrollToBottom() {
+    var div = document.getElementById("messagebox");
+    if (div !== null) div.scrollTop = div.scrollHeight;
+  }
+
+  componentDidUpdate() {
+    if (this.state.messageUpate !== this.state.messageAppend) {
       this.AppendMessage();
+    }else {
+      if(!this.state.bool){
+        this.scrollToBottom();
+        this.setState({
+          bool:true
+        })
+      }  
     }
   }
 
   render() {
+    
     return (
       <div className="main">
         <div className="status-bar">
@@ -174,25 +205,31 @@ class Demo extends React.Component {
           </div>
           <div className="right">
             <div className="message-content">
-              <div className="message">{this.state.msgcontent}</div>
+              <div id="messagebox" className="message">
+                {this.state.msgcontent}
+              </div>
               <div className="inputbox">
                 <input
                   type={"text"}
+                  value={this.state.inputvalue}
                   onKeyUp={(eve) => {
-                    this.inputvalue=eve.target.value;
+                    this.inputvalue = eve.target.value;
                   }}
+                  onChange={this.updateState}
                   placeholder={"Enter your message"}
                 ></input>
 
                 <button
                   onClick={(event) => {
+                    this.clearData();
                     console.log(this.inputvalue);
                     this.setState({
                       message: this.state.message.concat({
                         sender: false,
-                        message: this.inputvalue+" ",
+                        message: this.inputvalue + " ",
                       }),
-                      messageUpate:this.state.messageUpate+1
+                      messageUpate: this.state.messageUpate + 1,
+                      bool:false
                     });
                     console.log("messages ", this.state.message.length);
                   }}

@@ -131,6 +131,7 @@ input[type="search"]:focus{
     width: 100%;
     justify-content:baseline;
     overflow-y: scroll;
+    overflow-x: hidden;
     height: calc(100% - 100px);
 }
 .sender{
@@ -182,7 +183,7 @@ input[type="search"]:focus{
     background-color:#d7d7d7;
 }
 input[type="text"]{
-    height: 50px;
+    min-height: 50px;
     width: 80%;
     border-radius: 25px;
     font-size: larger;
@@ -230,6 +231,7 @@ input[type="text"]:focus{
   .msgcontainer{
     width: 100%;
     height: fit-content;
+    word-wrap: break-word;
   }
   img{
     display: block;
