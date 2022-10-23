@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import "./Demo.css";
 
@@ -6,6 +7,7 @@ class Demo extends React.Component {
     super(props);
     this.inputvalue = "";
     this.state = {
+      name:"",
       username: [],
       lastmessage: [],
       message: [],
@@ -177,6 +179,26 @@ class Demo extends React.Component {
     }
   }
 
+  componentDidMount(){
+    let formdata=new FormData();
+    let data={};
+    formdata.append('username','karthikeyan')
+    formdata.append('password','karthi.2002')
+    axios.get({
+      method:"get",
+      url:"/wel/",
+      data:formdata,
+      headers:{"Content-Type":"multipart/form-data"},
+    })
+    .then((res)=>{
+      data=res.data;
+      console.log(data[0].name)
+      this.setState({
+        name:data[0].name
+      })
+    })
+  }
+
   render() {
     
     return (
@@ -192,7 +214,7 @@ class Demo extends React.Component {
           <div className="right">
             <div className="status-bar">
               <div className="online">Online</div>
-              <div className="username">Username</div>
+              <div className="username">{this.state.name}</div>
             </div>
           </div>
         </div>
