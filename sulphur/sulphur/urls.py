@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('wel/', ReactView.as_view(), name="something"),
     path('add/',ReactView2.as_view(),name="something2"),
+    path('rest/',ReactView3.as_view(),name="something3"),
 ]

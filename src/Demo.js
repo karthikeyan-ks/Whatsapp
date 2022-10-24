@@ -47,19 +47,7 @@ class Demo extends React.Component {
     this.state.list = [];
     this.state.msgcontent = [];
     this.state.message = [
-      { sender: true, message: "hai" },
-      { sender: true, message: "hello" },
-      { sender: false, message: "welcome" },
-      {
-        sender: false,
-        message:
-          "welcome yhe  ahkgas asas asbajs as asa asad ad adcsds dsdsdjscsdbsdbishdbslhidclshdclhs dclhsdhsdlhcsdlhcsdhsldhljsdhcljsdhljsdhlcjsh ldh sldjch sdljch sldjhc ljshd cljsh cljsdh cljsdh ljsh dcljdhcljdsh cljshdc sdljch sldjchsjdh c",
-      },
-      {
-        sender: false,
-        message:
-          "Webkit browsers, such as Chrome, Safari and Opera, supports the non-standard ::-webkit-scrollbar pseudo element, which allows us to modify the look of the browser's scrollbar. IE and Edge supports the -ms-overflow-style: property, and Firefox supports the scrollbar-width property, which allows us to hide the scrollbar, but keep functionality.",
-      },
+      
     ];
     this.state.message.forEach((element) => {
       if (element.sender) {
@@ -180,25 +168,37 @@ class Demo extends React.Component {
   }
 
   componentDidMount(){
-    let formdata=new FormData();
-    let data={};
-    formdata.append('username','karthikeyan')
-    formdata.append('password','karthi.2002')
-    axios.get({
-      method:"get",
-      url:"/wel/",
-      data:formdata,
-      headers:{"Content-Type":"multipart/form-data"},
-    })
-    .then((res)=>{
-      data=res.data;
-      console.log(data[0].name)
+    axios({
+      method: 'post',
+      url: '/rest/',
+      data: {
+        username: 'user2',
+        password: 'user2'
+      }
+    }).then((res)=>{
+      console.log(res.data);
       this.setState({
-        name:data[0].name
+        name:res.data
+      })
+    });
+    axios({
+      method:"post",
+      url:"/add/",
+      data:{
+        username: 'user2',
+        password: 'user2'
+      }
+    }).then((res)=>{
+      console.log(res.data)
+      this.setState({
+        username:res.data,
+        lastmessage:res.data
       })
     })
   }
-
+  sendToServer(msg){
+    
+  }
   render() {
     
     return (
