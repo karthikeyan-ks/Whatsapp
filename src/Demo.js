@@ -16,96 +16,19 @@ class Demo extends React.Component {
       inputvalue: "",
       messageUpate: 0,
       messageAppend: 0,
+      userUpdate:0,
+      userAppend:0,
       bool:true
     };
 
     this.updateState = this.updateState.bind(this);
     this.clearData = this.clearData.bind(this);
-
-    this.state.username = [
-      "karthikeyan",
-      "alen",
-      "jiboy",
-      "athul",
-      "abhijith",
-      "zyzz",
-      "david",
-      "john",
-      "thomas",
-    ];
-    this.state.lastmessage = [
-      "hai",
-      "hello",
-      "bye",
-      "da",
-      "good morning",
-      "good night",
-      "tata",
-      "good night",
-      "good evening",
-    ];
     this.state.list = [];
     this.state.msgcontent = [];
     this.state.message = [
       
     ];
-    this.state.message.forEach((element) => {
-      if (element.sender) {
-        this.state.msgcontent.push(
-          <div
-            className="msgcontainer"
-            key={"msgcontainer" + this.state.msgcontent.length}
-          >
-            <div
-              className="sender sb1"
-              key={"sender" + this.state.msgcontent.length}
-            >
-              {element.message}
-            </div>
-          </div>
-        );
-      } else {
-        this.state.msgcontent.push(
-          <div
-            className="msgcontainer"
-            key={"msgcontainer" + this.state.msgcontent.length}
-          >
-            <div
-              className="receiver sb2"
-              key={"sender" + this.state.msgcontent.length}
-            >
-              {element.message}
-            </div>
-          </div>
-        );
-      }
-    });
-    for (let i = 0; i < 9; i++) {
-      this.state.list.push(
-        <div className="item" key={"item" + i}>
-          <div className="pic" key={"pic" + i}>
-            <img
-              src={
-                "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp"
-              }
-              alt={
-                "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp"
-              }
-              height={"40"}
-              width={"40"}
-            ></img>
-          </div>
-          <div className="main-content">
-            <div className="font" key={"font" + i}>
-              {this.state.username[i]}
-            </div>
-            <div className="msg" key={"msg" + i}>
-              {this.state.lastmessage[i]}
-            </div>
-          </div>
-        </div>
-      );
-    }
+    
   }
 
   updateState(e) {
@@ -154,6 +77,7 @@ class Demo extends React.Component {
     if (div !== null) div.scrollTop = div.scrollHeight;
   }
 
+
   componentDidUpdate() {
     if (this.state.messageUpate !== this.state.messageAppend) {
       this.AppendMessage();
@@ -165,9 +89,44 @@ class Demo extends React.Component {
         })
       }  
     }
+    if(this.state.userUpdate!=this.state.userAppend){
+      for (let i = 0; i < this.state.username.length; i++) {
+        console.log("appending users")
+        this.state.list.push(
+          <div className="item" key={"item" + i}>
+            <div className="pic" key={"pic" + i}>
+              <img
+                src={
+                  "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp"
+                }
+                alt={
+                  "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp"
+                }
+                height={"40"}
+                width={"40"}
+              ></img>
+            </div>
+            <div className="main-content">
+              <div className="font" key={"font" + i}>
+                {this.state.username[i]}
+              </div>
+              <div className="msg" key={"msg" + i}>
+                {this.state.lastmessage[i]}
+              </div>
+            </div>
+          </div>
+        );
+        this.setState({
+          userAppend:this.state.userAppend+1
+        })
+      }
+    }else{
+      console.log("both userUpdate and userAppend are same");
+    }
   }
 
   componentDidMount(){
+    console.log("mounting")
     axios({
       method: 'post',
       url: '/rest/',
@@ -192,7 +151,9 @@ class Demo extends React.Component {
       console.log(res.data)
       this.setState({
         username:res.data,
-        lastmessage:res.data
+        lastmessage:res.data,
+        userUpdate:this.state.userUpdate+1,
+        list:[]
       })
     })
   }
@@ -200,7 +161,7 @@ class Demo extends React.Component {
     
   }
   render() {
-    
+    console.log("rendering")
     return (
       <div className="main">
         <div className="status-bar">
