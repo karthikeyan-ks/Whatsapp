@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import Demo from "./Demo";
+import Chat from "./Chat";
 class App extends React.Component {
   constructor() {
     super();
@@ -22,7 +23,7 @@ class App extends React.Component {
       <div className="App">
         <div className="green"></div>
         <header className="App-header">
-          <Demo key={"demo"}></Demo>
+         <Chat key={"Chat"}></Chat>
         </header>
       </div>
     );
