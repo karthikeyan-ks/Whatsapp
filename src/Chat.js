@@ -68,19 +68,19 @@ function MessageList(props) {
   const [message, AddMessage] = useState([]);
   const [msgcontent, AppendMessage] = useState([]);
   console.log("Messagelist");
-  message.push({
-    sender: false,
-    message: "hello",
-  });
-  message.forEach((element) => {
-    msgcontent.push(
-      <div className="msgcontainer" key={"msgcontainer" + msgcontent.length}>
-        <div className="sender sb1" key={"sender" + msgcontent.length}>
-          {message[message.length - 1].message}
+  if (message.length > 0) {
+    let i=0;
+    message.forEach(element => {
+      msgcontent.push(
+        <div className="msgcontainer" key={"msgcontainer" + i}>
+          <div className="sender sb1" key={"sender" + i}>
+            {message[message.length - 1].message}
+          </div>
         </div>
-      </div>
-    );
-  });
+      );
+      i++;
+    });
+  }
   return msgcontent;
 }
 export default Chat;
