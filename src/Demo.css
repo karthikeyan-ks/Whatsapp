@@ -150,7 +150,7 @@ input[type="search"]:focus{
     position:relative;
     margin-left: 25px;
     font-family:'Courier New', Courier, monospace;
-    font-size: larger;
+    
     border-top-left-radius: 7px;
     border-top-right-radius: 10px;
     border-end-start-radius: 10px;
@@ -191,6 +191,11 @@ input[type="text"]{
 }
 input[type="text"]:focus{
     outline: none !important;
+}
+.time-div{
+    font-size: small;
+    color: #878787;
+    float: right;
 }
 .receiver{
     display: block;

@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Demo.css";
+import axios from "axios";
+import MessageList from "./MessageList";
+import Left from "./Left";
+
 class Chat extends React.Component {
   constructor(prop) {
     super(prop);
+    this.inputvalue = "";
     this.state = {
       name: "",
       username: [],
       lastmessage: [],
-      message: [{ message: "hello", sender: false }],
+      message: {},
       list: [],
       msgcontent: [],
       inputvalue: "",
@@ -18,11 +23,64 @@ class Chat extends React.Component {
       bool: true,
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    axios({
+      method: "post",
+      url: "/rest/",
+      data: {
+        username: "user2",
+        password: "user2",
+      },
+    }).then((res) => {
+      this.setState({
+        name: res.data,
+      });
+    });
+    this.setState({
+      message: {
+        karthikeyan: {
+          message: [
+            {
+              id: 1,
+              message: "hai",
+              sender: true,
+            },
+            {
+              id: 2,
+              message: "hello",
+              sender: false,
+            },
+          ],
+        },
+        aaa: {
+          message: [
+            { id: 1, message: "da", sender: true },
+            { id: 2, message: "ada", sender: false },
+          ],
+        },
+        bbb: {
+          message: [
+            { id: 1, message: "da mwone", sender: true },
+            { id: 2, message: "ada", sender: false },
+          ],
+        },
+      },
+    });
+  }
   componentDidUpdate() {}
   componentWillUnmount() {}
   render() {
-    console.log("rendering");
+    const handleClick = (num) => {
+      this.setState({
+        name: num,
+      });
+    };
+    const handleMessage = (message) => {
+      console.log("new message", message);
+      this.setState({
+        message: message,
+      });
+    };
     return (
       <div className="main">
         <div className="status-bar">
@@ -36,51 +94,21 @@ class Chat extends React.Component {
           <div className="right">
             <div className="status-bar">
               <div className="online">Online</div>
-              <div className="username">{/*/*this.state.name*/}</div>
+              <div className="username">{this.state.name}</div>
             </div>
           </div>
         </div>
         <div className="content">
-          <div className="left">
-            <div className="left-statusbar">
-              <input type={"search"} placeholder={"search contacts"}></input>
-            </div>
-            <div className="left-inner">{/*this.state.list*/}</div>
-          </div>
-          <div className="right">
-            <div className="message-content">
-              <div id="messagebox" className="message">
-                {/*this.state.msgcontent*/}
-                <MessageList message={this.state.message}></MessageList>
-              </div>
-              <div className="inputbox">
-                <input type={"text"} placeholder={"Enter your message"}></input>
-                <button>send</button>
-              </div>
-            </div>
-          </div>
+          <Left handleClick={handleClick}></Left>
+          <MessageList
+            handleMessage={handleMessage}
+            message={this.state.message}
+            name={this.state.name}
+          ></MessageList>
         </div>
       </div>
     );
   }
 }
-function MessageList(props) {
-  const [message, AddMessage] = useState([]);
-  const [msgcontent, AppendMessage] = useState([]);
-  console.log("Messagelist");
-  if (message.length > 0) {
-    let i=0;
-    message.forEach(element => {
-      msgcontent.push(
-        <div className="msgcontainer" key={"msgcontainer" + i}>
-          <div className="sender sb1" key={"sender" + i}>
-            {message[message.length - 1].message}
-          </div>
-        </div>
-      );
-      i++;
-    });
-  }
-  return msgcontent;
-}
+
 export default Chat;
