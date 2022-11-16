@@ -17,36 +17,82 @@ function MessageList(props) {
         AppendMessage([]);
         message.forEach((element) => {
           if (element.sender) {
-            AppendMessage((prev) => [
-              ...prev,
-              <div
-                className="msgcontainer"
-                key={"msgcontainer" + name + element.id}
-              >
-                <div className="sender sb1" key={"sender" + name + element.id}>
-                  {element.message}
-                  <br></br>
-                  <div className="time-div">time</div>
-                </div>
-              </div>,
-            ]);
-          } else {
-            AppendMessage((prev) => [
-              ...prev,
-              <div
-                className="msgcontainer"
-                key={"msgcontainer" + name + element.id}
-              >
+            console.log("element",element)
+            if (element.file_attach) {
+              console.log("condition true for img");
+              AppendMessage((prev) => [
+                ...prev,
                 <div
-                  className="receiver sb2"
-                  key={"sender" + name + element.id}
+                  className="msgcontainer"
+                  key={"msgcontainer" + name + element.id}
                 >
-                  {element.message}
-                  <br></br>
-                  <div className="time-div">time</div>
-                </div>
-              </div>,
-            ]);
+                  <div
+                    className="sender sb1"
+                    key={"sender" + name + element.id}
+                  >
+                    <img className="img_message" src={element.file_link} ></img>
+                    {element.message}
+                    <br></br>
+                    <div className="time-div">time</div>
+                  </div>
+                </div>,
+              ]);
+            } else {
+              AppendMessage((prev) => [
+                ...prev,
+                <div
+                  className="msgcontainer"
+                  key={"msgcontainer" + name + element.id}
+                >
+                  <div
+                    className="sender sb1"
+                    key={"sender" + name + element.id}
+                  >
+                    {element.message}
+                    <br></br>
+                    <div className="time-div">time</div>
+                  </div>
+                </div>,
+              ]);
+            }
+          } else {
+            if (element.file_attach) {
+              console.log("condition satisfied for img");
+              AppendMessage((prev) => [
+                ...prev,
+                <div
+                  className="msgcontainer"
+                  key={"msgcontainer" + name + element.id}
+                >
+                  <div
+                    className="receiver sb2"
+                    key={"receiver" + name + element.id}
+                  >
+                    <img className="img_message" src={element.file_link} ></img>
+                    {element.message}
+                    <br></br>
+                    <div className="time-div">time</div>
+                  </div>
+                </div>,
+              ]);
+            } else {
+              AppendMessage((prev) => [
+                ...prev,
+                <div
+                  className="msgcontainer"
+                  key={"msgcontainer" + name + element.id}
+                >
+                  <div
+                    className="receiver sb2"
+                    key={"receiver" + name + element.id}
+                  >
+                    {element.message}
+                    <br></br>
+                    <div className="time-div">time</div>
+                  </div>
+                </div>,
+              ]);
+            }
           }
           update((prev) => prev + 1);
           i++;
@@ -56,36 +102,44 @@ function MessageList(props) {
         let element = message[message.length - 1];
         if (element.message != null) {
           if (element.sender) {
-            AppendMessage((prev) => [
-              ...prev,
-              <div
-                className="msgcontainer"
-                key={"msgcontainer" + name + element.id}
-              >
-                <div className="sender sb1" key={"sender" + name + element.id}>
-                  {element.name}
-                  <br></br>
-                  <div className="time-div">time</div>
-                </div>
-              </div>,
-            ]);
-          } else {
-            AppendMessage((prev) => [
-              ...prev,
-              <div
-                className="msgcontainer"
-                key={"msgcontainer" + name + element.id}
-              >
+            if (element.file_attach) {
+            } else {
+              AppendMessage((prev) => [
+                ...prev,
                 <div
-                  className="receiver sb2"
-                  key={"sender" + name + element.id}
+                  className="msgcontainer"
+                  key={"msgcontainer" + name + element.id}
                 >
-                  {element.message}
-                  <br></br>
-                  <div className="time-div">time</div>
-                </div>
-              </div>,
-            ]);
+                  <div
+                    className="sender sb1"
+                    key={"sender" + name + element.id}
+                  >
+                    {element.name}
+                    <br></br>
+                    <div className="time-div">time</div>
+                  </div>
+                </div>,
+              ]);
+            }
+          } else {
+            if (element.file_attach) {
+              AppendMessage((prev) => [
+                ...prev,
+                <div
+                  className="msgcontainer"
+                  key={"msgcontainer" + name + element.id}
+                >
+                  <div
+                    className="receiver sb2"
+                    key={"sender" + name + element.id}
+                  >
+                    {element.message}
+                    <br></br>
+                    <div className="time-div">time</div>
+                  </div>
+                </div>,
+              ]);
+            }
           }
           i++;
           let download = props.message;
@@ -117,7 +171,7 @@ function MessageList(props) {
       div.scrollTop = div.scrollHeight;
       console.log("srcoll to bottom");
     }
-  },[msgcontent]);
+  }, [msgcontent]);
   return (
     <div className="right">
       <div className="message-content">
@@ -141,10 +195,9 @@ function MessageList(props) {
               console.log(j);
               AddMessage((prev) => [
                 ...prev,
-                { id: j, message: inputvalue, sender: false },
+                { id: j,file_attach:false,file_link:null, message: inputvalue, sender: false },
               ]);
               ChangeVal("");
-              document.getElementById("aaa1").style.background="#00000"
               update((prev) => prev + 1);
             }}
           >

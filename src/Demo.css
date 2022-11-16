@@ -252,3 +252,13 @@ input[type="text"]:focus{
     border-radius: 10px;
     border-color: white;
   }
+  .img_message{
+    display: inline_block;
+    max-width: max-content;
+    max-height: 200px;
+    padding: 0px;
+    margin:0px;
+    min-height: 200px;
+    border-radius: 10px;
+    min-width: 300px;
+  }

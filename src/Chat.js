@@ -21,9 +21,17 @@ class Chat extends React.Component {
       userUpdate: 0,
       userAppend: 0,
       bool: true,
+      intervalid: "",
     };
   }
+
+  checkNewMessage() {
+    // console.log("checking new Message");
+  }
+
   componentDidMount() {
+    var id = setInterval(this.checkNewMessage.bind(this), 1000);
+    this.intervalid = id;
     axios({
       method: "post",
       url: "/rest/",
@@ -42,33 +50,71 @@ class Chat extends React.Component {
           message: [
             {
               id: 1,
+              file_attach: true,
+              file_link:
+                "https://bobbyhadz.com/images/blog/react-prevent-multiple-button-clicks/thumbnail.webp",
               message: "hai",
               sender: true,
             },
             {
               id: 2,
+              file_attach: false,
+              file_link: null,
               message: "hello",
+              sender: false,
+            },
+            {
+              id: 3,
+              file_attach: true,
+              file_link: "https://wallpaper.dog/large/20473461.jpg",
+              message: "hai",
               sender: false,
             },
           ],
         },
         aaa: {
           message: [
-            { id: 1, message: "da", sender: true },
-            { id: 2, message: "ada", sender: false },
+            {
+              id: 1,
+              file_attach: false,
+              file_link: null,
+              message: "da",
+              sender: true,
+            },
+            {
+              id: 2,
+              file_attach: false,
+              file_link: null,
+              message: "ada",
+              sender: false,
+            },
           ],
         },
         bbb: {
           message: [
-            { id: 1, message: "da mwone", sender: true },
-            { id: 2, message: "ada", sender: false },
+            {
+              id: 1,
+              file_attach: false,
+              file_link: null,
+              message: "da mwone",
+              sender: true,
+            },
+            {
+              id: 2,
+              file_attach: false,
+              file_link: null,
+              message: "ada",
+              sender: false,
+            },
           ],
         },
       },
     });
   }
   componentDidUpdate() {}
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    clearInterval(this.intervalid);
+  }
   render() {
     const handleClick = (num) => {
       this.setState({

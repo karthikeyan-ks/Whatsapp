@@ -9,7 +9,7 @@ function Left({ handleClick }) {
   const [chatdiv, ChangeChatdiv] = useState([]);
   useEffect(() => {
     const check=setInterval(() => {
-      console.log("checking");
+      //console.log("checking new chat");
     }, 1000);
     let i = 0;
     ChangeChatdiv([]);
