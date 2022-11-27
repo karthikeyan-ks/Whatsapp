@@ -142,9 +142,9 @@ input[type="search"]:focus{
     margin-bottom: 5px ;
     background:#f7f7f7;
     float: left;
-    padding: 20px;
+    padding: 5px;
     color: black;
-    text-align: center;
+    text-align: start;
     font-weight: 900;
     font-family: arial;
     position:relative;
@@ -206,9 +206,9 @@ input[type="text"]:focus{
     margin-right: 15px;
     background:#02ef55;
     float: right;
-    padding: 20px;
+    padding: 5px;
     color: black;
-    text-align: center;
+    text-align: start;
     font-weight: 900;
     font-family: arial;
     position:relative;

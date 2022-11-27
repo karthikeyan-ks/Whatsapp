@@ -21,7 +21,7 @@ function Left({ handleClick }) {
           id={element + i}
           onClick={(event) => {
             handleClick(element);
-            document.getElementById(element + "3").style.background = "#878787";
+            document.getElementById(element + "3").style.background = "#d7d7d7";
 
             if (lastclick !== "" && lastclick !== element + "3") {
               document.getElementById(lastclick).style.background = "white";

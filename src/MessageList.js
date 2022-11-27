@@ -9,7 +9,7 @@ function MessageList(props) {
   const [inputvalue, ChangeVal] = useState("");
   const [msgcontent, AppendMessage] = useState([]);
   useEffect(() => {
-    console.log("calling message update");
+    console.log("calling message update", msgcontent.length);
     if (name !== "") {
       let i = j;
       console.log(i);
@@ -17,7 +17,7 @@ function MessageList(props) {
         AppendMessage([]);
         message.forEach((element) => {
           if (element.sender) {
-            console.log("element",element)
+            console.log("element", element);
             if (element.file_attach) {
               console.log("condition true for img");
               AppendMessage((prev) => [
@@ -30,7 +30,7 @@ function MessageList(props) {
                     className="sender sb1"
                     key={"sender" + name + element.id}
                   >
-                    <img className="img_message" src={element.file_link} ></img>
+                    <img className="img_message" src={element.file_link}></img>
                     {element.message}
                     <br></br>
                     <div className="time-div">time</div>
@@ -68,7 +68,7 @@ function MessageList(props) {
                     className="receiver sb2"
                     key={"receiver" + name + element.id}
                   >
-                    <img className="img_message" src={element.file_link} ></img>
+                    <img className="img_message" src={element.file_link}></img>
                     {element.message}
                     <br></br>
                     <div className="time-div">time</div>
@@ -100,8 +100,11 @@ function MessageList(props) {
       } else if (msgcontent.length > 0) {
         console.log("iteration");
         let element = message[message.length - 1];
+        console.log(element)
         if (element.message != null) {
+          console.log("check message not null passed");
           if (element.sender) {
+            console.log("check sender");
             if (element.file_attach) {
             } else {
               AppendMessage((prev) => [
@@ -122,7 +125,8 @@ function MessageList(props) {
               ]);
             }
           } else {
-            if (element.file_attach) {
+            console.log("check receiver");
+            if (!element.file_attach) {
               AppendMessage((prev) => [
                 ...prev,
                 <div
@@ -139,12 +143,14 @@ function MessageList(props) {
                   </div>
                 </div>,
               ]);
+            }else{
+
             }
           }
           i++;
           let download = props.message;
           download[name].message.push(element);
-          console.log(download);
+          console.log("download",download);
           handleMessage(download);
         }
       }
@@ -171,6 +177,7 @@ function MessageList(props) {
       div.scrollTop = div.scrollHeight;
       console.log("srcoll to bottom");
     }
+    AddMessage((prev) => prev);
   }, [msgcontent]);
   return (
     <div className="right">
@@ -195,7 +202,13 @@ function MessageList(props) {
               console.log(j);
               AddMessage((prev) => [
                 ...prev,
-                { id: j,file_attach:false,file_link:null, message: inputvalue, sender: false },
+                {
+                  id: j,
+                  file_attach: false,
+                  file_link: null,
+                  message: inputvalue,
+                  sender: false,
+                },
               ]);
               ChangeVal("");
               update((prev) => prev + 1);
