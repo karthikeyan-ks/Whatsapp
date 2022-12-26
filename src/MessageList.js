@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Demo.css";
 
@@ -11,6 +12,13 @@ function MessageList(props) {
   useEffect(() => {
     console.log("calling message update", msgcontent.length);
     if (name !== "") {
+      axios({
+        method: "post",
+        url: "/rest/" + props.hascode,
+        data: message[message.length - 1],
+      }).then((res) => {
+        console.log("response",res.data);
+      });
       let i = j;
       console.log(i);
       if (msgcontent.length === 0) {
@@ -100,7 +108,7 @@ function MessageList(props) {
       } else if (msgcontent.length > 0) {
         console.log("iteration");
         let element = message[message.length - 1];
-        console.log(element)
+        console.log(element);
         if (element.message != null) {
           console.log("check message not null passed");
           if (element.sender) {
@@ -143,14 +151,13 @@ function MessageList(props) {
                   </div>
                 </div>,
               ]);
-            }else{
-
+            } else {
             }
           }
           i++;
           let download = props.message;
           download[name].message.push(element);
-          console.log("download",download);
+          console.log("download", download);
           handleMessage(download);
         }
       }

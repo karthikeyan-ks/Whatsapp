@@ -2,12 +2,20 @@ import React from "react";
 import "./App.css";
 import Demo from "./Demo";
 import Chat from "./Chat";
+import Login from "./Login";
 class App extends React.Component {
   constructor() {
     super();
+    const HandleChange=(hascode)=>{
+      console.log("changing from App")
+      this.setState({
+        change:[<Chat hascode={hascode}></Chat>]
+      });
+    }
     this.state = {
       message: [],
       author: [],
+      change:[<Login HandleChange={HandleChange}></Login>]
     };
   }
 
@@ -19,11 +27,12 @@ class App extends React.Component {
   }
 
   render() {
+    
     return (
       <div className="App">
         <div className="green"></div>
         <header className="App-header">
-         <Chat key={"Chat"}></Chat>
+          {this.state.change}
         </header>
       </div>
     );

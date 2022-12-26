@@ -33,55 +33,66 @@ class ReactView2(APIView):
         return Response(details)
 
     def post(self,request):
+        print(request.data)
         username=request.data['username']
         password=request.data['password']
         user=User.objects.all().filter(name=username).filter(password=password)
-        if user.count()==0:
-            return Response("no such user found")
-        elif user.count()==1:
-            hash=user[0].hashcode
-            userhub=Userhub.objects.all().filter(hashid=hash)
-            data=[]
-            for userlist in userhub:
-                data.append(userlist.users)
-            return Response(data)
+        if(request.data['createAccount']):
+            username=request.data['username']
+            password=request.data['password']
+            email=request.data['email']
+            pass
         else:
-            return Response("something went wrong")
+            username=request.data['username']
+            password=request.data['password']
+            query=User.objects.filter(name=username).filter(password=password)
+            if query.count()>0:
+                print('user found',query[0].hashcode)
+                return Response(query[0].hashcode)
+            else:
+                print("user not found")
+                return Response("user not found")
+        query=User.objects.filter(name=username).filter(password=password)  
+        if query.count()==0:    
+            print("creating new user")
+            user=User()
+            hash=user.CreateHash()
+            user.name=username
+            user.password=password
+            user.hashcode=hash
+            user.email=email
+            try:
+                user.save()
+                pass
+            except:
+                print("exception raised")
+                return Response("username already taken")
+        else:
+            print(query[0].name)
+            return Response(query[0].hashcode)
+        return Response(query[0].hashcode)
 
 class ReactView3(APIView):
     serializer_class=ReactSerializer
-    def get(self,request):
+    def get(self,request,extends):
+        print(extends)
         details=[{"name":details.name,"password":details.password,"hascode":details.hashcode}
         for details in User.objects.all()]
         return Response(details)
 
-    def post(self,request):
+    def post(self,request,extends):
         print(request.data)
-        username=request.data['username']
-        password=request.data['password']
-        query=User.objects.filter(name=username).filter(password=password)
-        if query.count()==0:
-            print("creating new user")
-            user=User()
-            hash=CreateHash(username)
-            user.name=username
-            user.password=password
-            user.hashcode=hash
-            try:
-                user.save()
-                for u in User.objects.all().exclude(hashcode=hash):
-                    userhub=Userhub()
-                    userhub.hashid=hash
-                    userhub.users=u.name
-                    userhub.save()
-                    print("new connection generated")
-                pass
-            except:
-                print("exeception occured")
-            pass
-        else:
-            print(query[0].name)
-            for q in query:
-                print("working else part")
-                return Response(q.name)
-        return Response("karthiekayan")
+        print(extends)
+        user=User.objects.filter(hashcode=extends)
+        print(user[0].name)
+        message=MessagePool()
+        message.message=request.data['message']
+        message.sender=user[0].name
+        message.receiver="karthikeyan"
+        message.fileAttached=request.data['file_attach']
+        message.filelink=str(request.data['file_link'])
+        message.hash=extends
+        message.messageid=message.increment(extends)
+        message.save()
+        return Response(request.data)
+        

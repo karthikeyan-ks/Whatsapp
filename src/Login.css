@@ -1,0 +1,70 @@
+.main{
+    display: inline-block;
+    background-color:#d7d7d7;
+    justify-content: center;
+    align-items: center;
+}
+input[type="text"]{
+    width: 70%;
+    float: right;
+    margin-right: 10px;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border-width: 0px;
+    font-size: large;
+}
+input[type="password"]{
+    width: 70%;
+    float: right;
+    margin-right: 10px;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: large;
+    border-width: 0px;
+}
+input[type="email"]{
+    width: 70%;
+    float: right;
+    margin-right: 10px;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: large;
+    border-width: 0px;
+}
+.sub{
+    height: 100px;
+    width: 90%;
+    text-align: center;
+}
+.iteml{
+    height: fit-content;
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 5%;
+    display: flex;
+    font-size: large;
+    justify-content: space-between;
+}
+
+input[type="text"]:focus{
+    outline: none !important;
+}
+input[type="password"]:focus{
+    outline: none !important;
+}
+input[type="email"]:focus{
+    outline: none !important;
+}
+button{
+    color: white;
+    background-color: blue;
+    font-size: large;
+    width: fit-content;
+    height: 60px;
+    justify-self: center;
+    min-width: 100px;
+
+}

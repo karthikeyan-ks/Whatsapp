@@ -147,6 +147,7 @@ class Chat extends React.Component {
         <div className="content">
           <Left handleClick={handleClick}></Left>
           <MessageList
+            hascode={this.props.hascode}
             handleMessage={handleMessage}
             message={this.state.message}
             name={this.state.name}
